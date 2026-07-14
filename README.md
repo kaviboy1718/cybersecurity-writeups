@@ -20,3 +20,21 @@ In this lab, I practiced my skills in triaging and classifying security alerts f
 
 ### Key Takeaway:
 Attackers often attempt to "blend in" by using familiar names (like WindowsUpdateHelper). Analyzing the actual command arguments (like certutil or PowerShell -enc) is more critical than looking at the file names alone.<img width="1031" height="590" alt="brave_screenshot_techmadesimple net" src="https://github.com/user-attachments/assets/8283a4ae-8a23-4e4a-80cd-07b1eeb911ed" />
+
+
+---
+
+## 📊 Lab 2: SIEM Log Analysis
+* Platform: ISC2 Certified in Cybersecurity (CC)
+* Objective: Identify anomalous (suspicious) security events from a Windows SIEM log viewer.
+
+### 🔍 Identified Anomalous Events:
+* Malicious Process Spawning: WINWORD.EXE launching powershell.exe (indicates a phishing macro execution).
+* LOLBin Usage: PowerShell calling certutil.exe with -urlcache to download external files.
+* Persistence Mechanism: A suspicious scheduled task named WindowsUpdateHelper was created by SYSTEM.
+* Lateral Movement: User j.harris attempting a logon with explicit credentials targeting the Domain Controller (DC-01).
+* Privilege Escalation: User account successfully added to the high-privileged Domain Admins group.
+
+### 🏆 Lab Result:
+Successfully flagged all 5 anomalies with 100% accuracy (0 missed, 0 false flags).
+<img width="985" height="585" alt="brave_screenshot_techmadesimple net2" src="https://github.com/user-attachments/assets/34edba76-19a5-4c52-afe9-9cafa6a60bb0" />
