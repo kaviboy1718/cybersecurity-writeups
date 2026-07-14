@@ -25,7 +25,7 @@ Attackers often attempt to "blend in" by using familiar names (like WindowsUpdat
 ---
 
 ## 📊 Lab 2: SIEM Log Analysis
-* Platform: ISC2 Certified in Cybersecurity (CC)
+* Platform: TechMadeSimple
 * Objective: Identify anomalous (suspicious) security events from a Windows SIEM log viewer.
 
 ### 🔍 Identified Anomalous Events:
