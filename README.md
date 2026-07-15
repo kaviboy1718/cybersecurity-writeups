@@ -64,6 +64,7 @@ This write-up covers an incident response scenario from a SOC (Security Operatio
 3. 09:15:09 | A persistence mechanism was established via a scheduled task named WindowsUpdateHelper.
 4. 09:18:11 | An explicit credential dumping attempt was made to the Domain Controller (DC-01).
 5. 09:20:02 | The compromised user account j.harris was successfully added to the Domain Admins group (Privilege Escalation & Lateral Movement).
+
    <img width="636" height="291" alt="brave_screenshot_techmadesimple3 net" src="https://github.com/user-attachments/assets/68c1fb05-e424-461e-821f-f38f452ab28e" />
 
 
