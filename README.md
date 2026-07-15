@@ -42,7 +42,7 @@ Successfully flagged all 5 anomalies with 100% accuracy (0 missed, 0 false flags
 
 ---
 
-## 📊 Lab 2: SIEM Log Analysis — Suspicious encoded PowerShell execution followed by credential dumping
+## 📊 Lab 3: SIEM Log Analysis — Suspicious encoded PowerShell execution followed by credential dumping
 * Platform: TechMadeSimple
 * Objective: Investigate a high-severity alert within a simulated corporate network, identify system anomalies using SIEM logs, and execute correct Incident Response (IR) containment actions.
 
