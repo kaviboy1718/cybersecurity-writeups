@@ -42,38 +42,44 @@ Successfully flagged all 5 anomalies with 100% accuracy (0 missed, 0 false flags
 
 ---
 
-## 📊 Lab 3: SIEM Log Analysis — Suspicious encoded PowerShell execution followed by credential dumping
-* Platform: TechMadeSimple
-* Objective: Investigate a high-severity alert within a simulated corporate network, identify system anomalies using SIEM logs, and execute correct Incident Response (IR) containment actions.
+# Incident Response Simulation: Encoded PowerShell & Credential Dumping
+
+## Overview
+This write-up covers an incident response scenario from a SOC (Security Operations Center) simulation. The alert triggered on a suspicious encoded PowerShell execution followed by potential credential dumping on a financial department asset.
 
 ---
 
-### 🔍 Phase 1: Threat Detection & Anomalies Identified
-During the log analysis, 5 critical security anomalies were successfully detected and flagged with 100% accuracy:
+## Alert Analysis
+* Alert Title: Suspicious encoded PowerShell execution followed by credential dumping
+* Severity: High
+* Target Entity (User): j.harris (Finance Dept)
+* Target Host: FIN-LAPTOP-07
+* Suspicious IP: 185.220.101.5 (Identified as a TOR exit node)
+* Process: powershell.exe -enc <encoded_payload>
+* Dropped File: C:\Users\j.harris\AppData\Local\Temp\svc32.exe
 
-* Malicious Process Spawning: WINWORD.EXE spawned powershell.exe with an encoded command, indicating a classic phishing/malicious macro execution.
-* LOLBin Exploitation (Live off the Land): powershell.exe called certutil.exe with -urlcache to download an external payload (svc32.exe) from a known TOR exit node (185.220.101.5).
-* Persistence Mechanism: A suspicious scheduled task named WindowsUpdateHelper was created by SYSTEM using certutil to maintain a foothold on the target machine.
-* Lateral Movement: The compromised user account j.harris attempted an explicit credential logon targeting the Domain Controller (DC-01).
-* Privilege Escalation: The adversary successfully added the j.harris account to the high-privileged Domain Admins group, gaining full control.
-* <img width="636" height="291" alt="brave_screenshot_techmadesimple3 net" src="https://github.com/user-attachments/assets/b129d7f0-bb86-43ac-814a-f3afae195dc2" />
-
-
----
-
-### 🛡️ Phase 2: Incident Response & Containment Action
-Once the threat timeline was established, the following containment strategy was executed to minimize the blast radius:
-
-* Action Taken: Selected "Isolate FIN-LAPTOP-07, disable j.harris AD account, escalate to Tier 2 with full timeline" as the correct response action.
-* Technical Justification:
-  1. Host Isolation: Immediately isolating FIN-LAPTOP-07 from the network stops the adversary's C2 communication and prevents further lateral movement.
-  2. Account Disabling: Disabling the j.harris Active Directory (AD) account blocks the attacker from utilizing their newly acquired Domain Admins privileges.
-  3. Escalation: Handing over a detailed, chronological attack timeline to the Tier 2 Incident Response team ensures rapid and effective remediation.
-  4. <img width="637" height="588" alt="brave_screenshot_techmadesimple net3 1" src="https://github.com/user-attachments/assets/d8906065-0f8b-4309-bcc1-34a6df4fe3fd" />
+### Attack Timeline (Chronological Flow)
+1. 09:15:03 | WINWORD.EXE spawned powershell.exe with an encoded command. (Indicates a malicious macro execution via a Microsoft Word document).
+2. 09:15:04 | certutil.exe was used to download a payload from the TOR exit node (185.220.101.5).
+3. 09:15:09 | A persistence mechanism was established via a scheduled task named WindowsUpdateHelper.
+4. 09:18:11 | An explicit credential dumping attempt was made to the Domain Controller (DC-01).
+5. 09:20:02 | The compromised user account j.harris was successfully added to the Domain Admins group (Privilege Escalation & Lateral Movement).
+   <img width="636" height="291" alt="brave_screenshot_techmadesimple3 net" src="https://github.com/user-attachments/assets/68c1fb05-e424-461e-821f-f38f452ab28e" />
 
 
 ---
 
-### 🏆 Lab Results & Verification
-* Detection Accuracy: 100% (5/5 Anomalies Correctly Flagged)
-* Response Accuracy: Correct Containment Action Selected
+## Incident Response & Containment Strategy
+
+Based on the severity and progress of the attack (which reached Domain Admin compromise), immediate containment was required to prevent further lateral movement.
+
+### Correct Actions Taken:
+1. **Isolate the Endpoint (FIN-LAPTOP-07):** Cut off network access to the compromised machine to stop outbound C2 communication and prevent further lateral scanning.
+2. **Disable the Compromised Account (j.harris):** Instantly disable the Active Directory account to revoke the newly gained Domain Admin privileEscalate to Tier 2 (Incident Response Team):Team):** Hand over the incident with a fully documented timeline so Tier 2 can scope the full blast radius, perform memory forensics, and execute proper remediation.
+   <img width="637" height="588" alt="brave_screenshot_techmadesimple net3 1" src="https://github.com/user-attachments/assets/90433a84-b33e-494e-9cdf-09a931c14864" />
+
+
+---
+
+## Key TakeMacro Execution Danger:anger:** Financial departments are primary targets for phishing emails containing malicious macros (WINWORD.EXE spawning Powershell).
+* **Abuse of Built-in Tools (LolBins):** The attacker abused certutil.exe to bypass traditional download restPrivilege Escalation Speed:ion Speed:** The time between initial access and Domain Admin compromise was less than 10 minutes. Fast response time is crucial.
