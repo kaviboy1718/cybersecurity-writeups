@@ -84,3 +84,26 @@ Based on the severity and progress of the attack (which reached Domain Admin com
 
 ## Key TakeMacro Execution Danger:anger:** Financial departments are primary targets for phishing emails containing malicious macros (WINWORD.EXE spawning Powershell).
 * **Abuse of Built-in Tools (LolBins):** The attacker abused certutil.exe to bypass traditional download restPrivilege Escalation Speed:ion Speed:** The time between initial access and Domain Admin compromise was less than 10 minutes. Fast response time is crucial.
+
+
+# TechMadeSimple - Lab 04: Defender Threat Dashboard Analysis
+## Objective
+Analyze a process tree within a simulated Defender Threat Dashboard to identify the attack chain, map it to MITRE ATT&CK tactics, and determine the correct mitigation verdict.
+## Attack Chain Breakdown
+The process tree revealed a multi-stage execution flow, starting from a user opening a malicious document to the attacker gaining complete control over the system.
+
+| Process Name | PID | User / Context | Description |
+| :--- | :--- | :--- | :--- |
+| explorer.exe | - | j.harris | User shell environment. |
+| WINWORD.EXE | - | j.harris | User opens a suspicious invoice document (Invoice_Q1_2026.docm). |
+| cmd.exe | 5892 | j.harris | Spawned directly by Word Macro (T1566.001). |
+| powershell.exe | 6104 | j.harris | Executed with -ExecutionPolicy Bypass and an encoded command (-enc) to evade detection. |
+| certutil.exe | 7230 | j.harris | Used as a Living-off-the-Land Binary (LOLBin) to download svc32.exe from http://185.220.101.5/ via -urlcache. |
+| svc32.exe | 7891 | j.harris | The dropped executable payload. (SHA256: a1b2c3d4...f9). |
+| cmd.exe | 8021 | SYSTEM | Final payload execution resulting in Local Privilege Escalation to SYSTEM level. |
+
+## Key Takeaways & Mitigation
+* Verdict: Confirmed malware dropper via Office Macro (MITRE T1566.001 + T1059.001).
+* Remediation: Isolated the affected endpoint (FIN-LAPTOP-07) immediately using Defender's device isolation action to prevent lateral movement.
+* Defense Strategy: Block WinWord from spawning child processes (using Attack Surface Reduction - ASR rules) and restrict the usage of certutil for downloading external files.
+  <img width="635" height="558" alt="brave_screenshot_techmadesimple net" src="https://github.com/user-attachments/assets/b1adeec9-ec1d-49de-a285-1753fad7be9b" />
