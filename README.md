@@ -107,3 +107,30 @@ The process tree revealed a multi-stage execution flow, starting from a user ope
 * Remediation: Isolated the affected endpoint (FIN-LAPTOP-07) immediately using Defender's device isolation action to prevent lateral movement.
 * Defense Strategy: Block WinWord from spawning child processes (using Attack Surface Reduction - ASR rules) and restrict the usage of certutil for downloading external files.
   <img width="635" height="558" alt="brave_screenshot_techmadesimple net" src="https://github.com/user-attachments/assets/b1adeec9-ec1d-49de-a285-1753fad7be9b" />
+
+
+# 📧 Phishing Email Analysis & Artifact Dissection
+
+This repository documents a hands-on cybersecurity investigation focused on email security, header analysis, and identifying indicators of malicious intent.
+
+## 📊 Lab 5: Phishing Email Dissector
+* Platform: TechMadeSimple
+* Objective: Analyze a suspected executive impersonation email, dissect technical headers and message body artifacts, and accurately identify all Indicators of Compromise (IOCs).
+
+---
+
+### 🔍 Indicators of Compromise (IOCs) Identified
+During the deep-dive analysis, 5 critical security anomalies were flagged with 100% detection accuracy:
+
+1. Lookalike Domain Spoofing (Typo-squatting): The From address utilized a capital I (cfo@vantara-financialI.com) to visually mimic the legitimate organization domain.
+2. Suspicious Reply-To Mismatch: The Reply-To field was configured to redirect communications to an unauthorized, attacker-controlled domain (payments@secure-vantara-portal.net).
+3. SPF Authentication Failure: The Sender Policy Framework (SPF) result returned a fail, explicitly indicating the email originated from an unauthorized mail server.
+4. Anonymized Infrastructure: The X-Originating-IP header tracked back to 185.220.101.5, a known TOR exit node used by the adversary to mask their true origin.
+5. Credential Harvesting Artifact: The email body contained a malicious hyperlink pointing to a deceptive domain (http://vantara-secure.login-portal.xyz/) targeting executive credentials.
+
+---
+
+### 🏆 Lab Results & Verification
+* IOC Detection Rate: 100% (5/5 Artifacts Correctly Identified)
+* Analysis Integrity: 0 Missed Alerts / 0 False Flags
+  <img width="580" height="564" alt="brave_screenshot_techmadesimple net" src="https://github.com/user-attachments/assets/32a8fba2-36db-4bad-af13-2201b2a5a24a" />
